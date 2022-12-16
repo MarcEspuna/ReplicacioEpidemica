@@ -5,7 +5,7 @@
 Server::Server() {}
 
 Server::Server(int port)
-	: m_Port(port), m_Conectivity(nullptr)
+	: m_Port(port)
 {
 	Bind(port);	
 }
@@ -14,11 +14,7 @@ Server::~Server()
 { 
 	gracefulClose();
 	close();
-	if (m_Conectivity)
-	{
-		m_Conectivity->join();
-		delete m_Conectivity; 
-	}
+	m_Conectivity.wait();
 }
 
 SOCKET Server::AcceptClient() const
@@ -65,7 +61,7 @@ void Server::Bind(const unsigned int& port, const unsigned long& address)
 
 void Server::StartConnectionHandling()
 {	
-	m_Conectivity = new std::thread(&Server::IncommingConnectionsHandler, this);
+	m_Conectivity = std::async(std::launch::async, &Server::IncommingConnectionsHandler, this);
 }
 
 void Server::ListenConn(const unsigned int& connectionCount) const

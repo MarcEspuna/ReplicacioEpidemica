@@ -28,7 +28,7 @@ protected:
 	virtual void IncommingConnection(SOCKET client) = 0;				// Incomming connection callback
 private:
 	int m_Port;															// Server port
-	std::thread* m_Conectivity;											// Thread used to handle incomming connections from clients 
+	std::future<void> m_Conectivity;											// Thread used to handle incomming connections from clients 
 	std::function<void(SOCKET)> m_Callback;								// Funcion that gets called when a client is connecting to the server
 private:
 	void IncommingConnectionsHandler();									// Function that handles incomming connections on the server (used by m_Conectivity thread)
