@@ -5,6 +5,7 @@ include(CTest)
 enable_testing()
 
 add_subdirectory(dependencies/spdlog)
+add_subdirectory(dependencies/efsw)
 
 if(NOT TARGET spdlog)
     # Stand-alone build
@@ -16,7 +17,7 @@ add_executable(ReplicacioEpidemica main.cpp Server.cpp Client.cpp Socket.cpp Nod
 set(LIBS Ws2_32.lib spdlog::spdlog)
 
 target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include)
-target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include/spdlog)
+target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include/spdlog dependencies/efsw/include/efsw)
 target_compile_features(ReplicacioEpidemica PRIVATE cxx_std_17)
 target_precompile_headers(ReplicacioEpidemica PRIVATE Commons.h)
 target_link_libraries(ReplicacioEpidemica PRIVATE ${LIBS})

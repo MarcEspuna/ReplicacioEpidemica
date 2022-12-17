@@ -1,22 +1,11 @@
-#include <iostream>
+#include "Commons.h"
 #include "CoreNode.h"
 #include "LayerOneNode.h"
-
+#include "efsw.h"
 
 int main(int argc, char** argv) {
-    /**
-     * @brief 
-     * 
-     * CoreNode A1({<ports to connect to>});
-     * CoreNode A2({<...>});
-     * CoreNode A3({<...>});
-     * 
-     * LayerOneNode B1({});
-     * LayerOneNode B2({});
-     * 
-     * LayerTwoNode C1({});
-     * LayerTwoNode C2({});
-     */
+
+
     Log::StartLogging();
     Log::CreateLogger("CORE");
     Socket::Init();
