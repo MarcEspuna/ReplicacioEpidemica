@@ -4,7 +4,7 @@
 
 class CoreNode : public Node {
 public:
-    CoreNode(int id, const std::vector<int>& current, const std::vector<int>& next);
+    CoreNode(int id);
     ~CoreNode();
 protected:
     virtual void Run() override;

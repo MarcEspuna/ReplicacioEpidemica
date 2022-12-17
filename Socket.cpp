@@ -29,7 +29,7 @@ bool Socket::InitSocket()
 {
 	if ((s = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
-		LOG_ERROR("[INIT SOCKET]: Could not create socket : {}\n", WSAGetLastError());
+		LOG_ERROR("Could not create socket : {}", WSAGetLastError());
 		return false;
 	}
 	return true;
@@ -38,7 +38,7 @@ bool Socket::InitSocket()
 void Socket::Init()
 {
 	WSADATA wsa;						// Winsocket
-	LOG_INFO("Initialising Winsock Client...\n");
+	LOG_INFO("Initialising Winsock Client...");
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 	{
 		LOG_ERROR("Failed. Error Code : {}", WSAGetLastError());
@@ -47,10 +47,6 @@ void Socket::Init()
 
 int Socket::IncommingRead()
 {
-	//FD_SET rd;
-	//FD_ZERO(&rd);
-	//FD_SET(s, &rd);
-	//return select((int)s+1, &rd, NULL, NULL, NULL);
 	char check;
 	return recv(s, &check, 1, MSG_PEEK);
 }
@@ -58,7 +54,7 @@ int Socket::IncommingRead()
 void Socket::Finit()
 {
 	WSACleanup();
-	LOG_WARN("Finalization of windows sockets.\n");
+	LOG_WARN("Finalization of windows sockets.");
 }
 
 void Socket::close()
@@ -67,7 +63,7 @@ void Socket::close()
 	{
 		closesocket(s);
 		m_Connected = false;
-		LOG_WARN("Closed socket, {}\n", s);
+		LOG_WARN("Closed socket, {}", s);
 	}
 }
 

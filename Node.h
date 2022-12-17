@@ -11,9 +11,10 @@ public:
      * @brief Constructor links to all the specifed portis
      * @param link integers specifiyng the ports to connect to
      */
-    Node(int id, const std::vector<int>& currentLayer, const std::vector<int>& nextLayer);
+    Node(int id);
     virtual ~Node();
 
+    void Connect(const std::vector<int>& currentLayer = {}, const std::vector<int>& nextLayer = {});
     void Start();  
     void Shutdown();
     void Wait();

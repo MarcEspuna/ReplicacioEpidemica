@@ -32,18 +32,18 @@ void Client::Connect(const unsigned int& port, const char* address)
 	server.sin_family = AF_INET;
 	if (inet_pton(AF_INET, address, &server.sin_addr.s_addr) <= 0)
 	{
-		LOG_ERROR("Client, Error configuring IP");
+		LOG_ERROR("Error configuring IP");
 		return;
 	}
 
 	//Connect to remote server
 	if (connect(s, (struct sockaddr*)&server, sizeof(server)) < 0)
 	{
-		LOG_ERROR("Client, error connecting to server with code: {}, port {}\n", WSAGetLastError(), port);
+		LOG_ERROR("Error connecting to server with code: {}, port {}", WSAGetLastError(), port);
 	}
 	else{
 		assertm(m_Connected == false, "This client is already connected!");
-		LOG_INFO("Client, successfully connected to server, port {}\n", port);
+		LOG_INFO("Successfully connected to server, port {}", port);
 		m_Connected = true;
 	}
 }

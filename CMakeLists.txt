@@ -11,7 +11,7 @@ if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)
 endif()
 
-add_executable(ReplicacioEpidemica main.cpp Server.cpp Client.cpp Socket.cpp Node.cpp CoreNode.cpp LayerOneNode.cpp LayerTwoNode.cpp)
+add_executable(ReplicacioEpidemica main.cpp Server.cpp Client.cpp Socket.cpp Node.cpp CoreNode.cpp LayerOneNode.cpp LayerTwoNode.cpp Log.cpp)
 
 set(LIBS Ws2_32.lib spdlog::spdlog)
 

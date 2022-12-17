@@ -28,15 +28,15 @@ SOCKET Server::AcceptClient() const
 		switch (error)
 		{
 		case WSAEINTR:
-			LOG_WARN("Server, Interruption function call, stopping listening for connections...\n");
+			LOG_WARN("Interruption function call, stopping listening for connections...");
 			break;
 		default:
-			LOG_ERROR("Server, Accept failed with error code: {}\n", error);
+			LOG_ERROR("Accept failed with error code: {}", error);
 			break;
 		}
 		return 0;
 	}
-	LOG_INFO("Server, connection accepted.\n");
+	LOG_INFO("Connection accepted.");
 	return new_socket;
 }
 
@@ -51,12 +51,12 @@ void Server::Bind(const unsigned int& port, const unsigned long& address)
 	//Bind
 	if (bind(s, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
 	{
-		LOG_ERROR("Server, bind failed, port {}, error code : {}\n", port, WSAGetLastError());
-		assertm(false, "Server failed to bind.\n");
+		LOG_ERROR("Bind failed, port {}, error code : {}", port, WSAGetLastError());
+		assertm(false, "Failed to bind.");
 		return;
 	}
 	m_Connected = true;
-	LOG_INFO("Server, Bind done.\n");
+	LOG_INFO("Bind done.");
 }
 
 void Server::StartConnectionHandling()
@@ -78,5 +78,5 @@ void Server::IncommingConnectionsHandler()
 		if (client)	    IncommingConnection(client);
 		else m_Connected = false;
 	}
-	LOG_INFO("Server, id, {} exiting incomming connections\n", m_Port);
+	LOG_INFO("Id, {} exiting incomming connections", m_Port);
 }

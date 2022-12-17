@@ -6,8 +6,8 @@ LayerOneNode::~LayerOneNode()
 }
 
 
-LayerOneNode::LayerOneNode(int id, const std::vector<int>& current, const std::vector<int>& next)
-    : Node(id, current, next)
+LayerOneNode::LayerOneNode(int id)
+    : Node(id)
 {
     
 }

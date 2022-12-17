@@ -1,30 +1,38 @@
 #include "Node.h"
 
-Node::Node(int id, const std::vector<int>& currentLayer, const std::vector<int>& nextLayer)
-    : Server(id), m_id(id), m_Running(true), m_CurrentLayer(currentLayer), m_NextLayer(nextLayer)
+Node::Node(int id)
+    : Server(id), m_id(id), m_Running(true)
 {
     StartConnectionHandling();
-    for (auto port : currentLayer)
-    {
-        {
-            std::lock_guard<std::mutex> lck(m_DataMutex);
-            m_Sockets.try_emplace(port, port);
-        }
-        m_Sockets.at(port).Send(std::array<int,1>{m_id});
-    }
-    for (auto port : nextLayer)
-    {
-        {
-            std::lock_guard<std::mutex> lck(m_DataMutex);
-            m_Sockets.try_emplace(port, port);
-        }
-        m_Sockets.at(port).Send(std::array<int,1>{m_id});
-    }
 }
 
 Node::~Node()
 {
     
+}
+
+void Node::Connect(const std::vector<int>& currentLayer, const std::vector<int>& nextLayer)
+{
+    /* Connect to current layer nodes */
+    for (auto port : currentLayer)
+    {
+        {
+            std::lock_guard<std::mutex> lck(m_DataMutex);
+            m_Sockets.try_emplace(port, port);
+            m_CurrentLayer.push_back(port);
+        }
+        m_Sockets.at(port).Send(std::array<int,1>{m_id});
+    }
+    /* Connect to next layer nodes */
+    for (auto port : nextLayer)
+    {
+        {
+            std::lock_guard<std::mutex> lck(m_DataMutex);
+            m_Sockets.try_emplace(port, port);
+            m_NextLayer.push_back(port);
+        }
+        m_Sockets.at(port).Send(std::array<int,1>{m_id});
+    }
 }
 
 void Node::Start()
@@ -34,7 +42,6 @@ void Node::Start()
 
 void Node::Shutdown()
 {
-    
     m_Running = false;
 }
 
