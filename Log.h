@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
 #include <memory>
+
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "spdlog.h"
+
 
 class Log {
 public:

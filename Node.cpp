@@ -1,7 +1,7 @@
 #include "Node.h"
 
 Node::Node(int id)
-    : Server(id), m_id(id), m_Running(true)
+    : Server(id), m_Id(id), m_Running(true)
 {
     StartConnectionHandling();
 }
@@ -21,7 +21,7 @@ void Node::Connect(const std::vector<int>& currentLayer, const std::vector<int>&
             m_Sockets.try_emplace(port, port);
             m_CurrentLayer.push_back(port);
         }
-        m_Sockets.at(port).Send(std::array<int,1>{m_id});
+        m_Sockets.at(port).Send(std::array<int,1>{m_Id});
     }
     /* Connect to next layer nodes */
     for (auto port : nextLayer)
@@ -31,7 +31,7 @@ void Node::Connect(const std::vector<int>& currentLayer, const std::vector<int>&
             m_Sockets.try_emplace(port, port);
             m_NextLayer.push_back(port);
         }
-        m_Sockets.at(port).Send(std::array<int,1>{m_id});
+        m_Sockets.at(port).Send(std::array<int,1>{m_Id});
     }
 }
 
@@ -61,4 +61,27 @@ void Node::IncommingConnection(SOCKET client)
         m_Sockets.try_emplace(port[0], client);
         m_CurrentLayer.push_back(port[0]);
     }
+}
+
+void Node::SendMsg(int desc, Tag tag, int msg)
+{
+    //assertm(s_App->m_Sockets.find(desc) != s_App->m_Sockets.end(), "Send msg to unknown client!");
+    LOG_ASSERT(m_Sockets.find(desc)!=m_Sockets.end(), "Send msg to unknown client! id: {}", desc);
+    std::array<char, 5> buffer;
+    buffer[0] = (char)tag;
+    memcpy_s(&buffer[1], sizeof(int), &msg, sizeof(int));
+    m_Sockets.at(desc).Send(buffer);
+}
+
+int Node::IncommingReadFrom(int id) 
+{ 
+    LOG_ASSERT(m_Sockets.find(id) != m_Sockets.end(), "Socket not found!"); 
+    return m_Sockets.at(id).IncommingRead(); 
+}
+
+void Node::RemoveClient(int id)
+{
+    std::lock_guard<std::mutex> lck(m_DataMutex);
+    if (m_Sockets.find(id) != m_Sockets.end()) 
+        m_Sockets.erase(id);
 }

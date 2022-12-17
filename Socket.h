@@ -61,7 +61,7 @@ template<typename T,size_t S>
 void Socket::Send(const std::array<T, S> segment) const
 {
     if (send(s, (char*)segment.data(), sizeof(T)*S, 0) == SOCKET_ERROR){
-        LOG_ASSERT(false, "Error on send! Error code {}", WSAGetLastError());
+        LOG_ERROR("Error on send! Error code {}", WSAGetLastError());
     }
 }
 template<typename T, size_t S>

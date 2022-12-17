@@ -12,16 +12,14 @@ if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)
 endif()
 
-add_executable(ReplicacioEpidemica main.cpp Server.cpp Client.cpp Socket.cpp Node.cpp CoreNode.cpp LayerOneNode.cpp LayerTwoNode.cpp Log.cpp)
+add_executable(ReplicacioEpidemica main.cpp Server.cpp Client.cpp Socket.cpp Node.cpp CoreNode.cpp LayerOneNode.cpp LayerTwoNode.cpp Log.cpp FileWatcher.cpp LamportMutex.cpp MsgHandler.cpp)
 
-set(LIBS Ws2_32.lib spdlog::spdlog)
+set(LIBS Ws2_32.lib spdlog::spdlog efsw)
 
-target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include)
-target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include/spdlog dependencies/efsw/include/efsw)
 target_compile_features(ReplicacioEpidemica PRIVATE cxx_std_17)
+target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/include dependencies/spdlog/include/spdlog dependencies/efsw/include/efsw dependencies/efsw/include)
 target_precompile_headers(ReplicacioEpidemica PRIVATE Commons.h)
-target_link_libraries(ReplicacioEpidemica PRIVATE ${LIBS})
-
+target_link_libraries(ReplicacioEpidemica PUBLIC ${LIBS})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

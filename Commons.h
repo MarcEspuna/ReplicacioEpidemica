@@ -15,5 +15,6 @@
 #include <array>
 #include <cassert>
 #include <future>
+#include <queue>
 
 #define assertm(exp, msg) assert(((void)msg, exp))
