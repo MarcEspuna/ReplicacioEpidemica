@@ -2,8 +2,8 @@
 #include "Commons.h"
 #include "sockets/Client.h"
 #include "sockets/Server.h"
-#include "Transaction.h"
-#include "TransactionReader.h"
+#include "transactions/Transaction.h"
+#include "transactions/TransactionReader.h"
 
 enum class Tag {
     REQUEST = 'R', RELEASE = 'L', OK = 'K', ACK = 'A', END='E', BEGIN='B', TERMINATE='T', READY='D',

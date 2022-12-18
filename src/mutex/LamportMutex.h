@@ -1,9 +1,9 @@
 #pragma once
 #include "Commons.h"
-#include "MsgHandler.h"
-#include "Lock.h"
+#include "mutex/MsgHandler.h"
+#include "mutex/Lock.h"
 #include "Log.h"
-#include "DirectClock.h"
+#include "mutex/DirectClock.h"
 
 
 class LamportMutex : public Lock {

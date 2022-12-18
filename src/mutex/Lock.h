@@ -1,6 +1,6 @@
 #pragma once
 #include "Commons.h"
-#include "MsgHandler.h"
+#include "mutex/MsgHandler.h"
 #include "nodes/Node.h"
 
 /// @brief Lock interface

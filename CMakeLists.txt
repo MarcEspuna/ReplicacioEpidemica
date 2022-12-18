@@ -12,7 +12,7 @@ if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)
 endif()
 
-add_executable(ReplicacioEpidemica src/main.cpp src/sockets/Server.cpp src/sockets/Client.cpp src/sockets/Socket.cpp src/nodes/Node.cpp src/nodes/CoreNode.cpp src/nodes/LayerOneNode.cpp src/nodes/LayerTwoNode.cpp src/Log.cpp src/FileWatcher.cpp src/LamportMutex.cpp src/MsgHandler.cpp src/Transaction.cpp src/TransactionReader.cpp src/Controller.cpp)
+add_executable(ReplicacioEpidemica src/main.cpp src/sockets/Server.cpp src/sockets/Client.cpp src/sockets/Socket.cpp src/nodes/Node.cpp src/nodes/CoreNode.cpp src/nodes/LayerOneNode.cpp src/nodes/LayerTwoNode.cpp src/Log.cpp src/transactions/FileWatcher.cpp src/mutex/LamportMutex.cpp src/mutex/MsgHandler.cpp src/transactions/Transaction.cpp src/transactions/TransactionReader.cpp src/Controller.cpp)
 
 set(LIBS Ws2_32.lib spdlog::spdlog efsw)
 

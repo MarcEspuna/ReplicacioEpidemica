@@ -1,7 +1,7 @@
 #pragma once
 
 #include "nodes/Node.h"
-#include "LamportMutex.h"
+#include "mutex/LamportMutex.h"
 
 class CoreNode : public Node {
 public:

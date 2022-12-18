@@ -4,8 +4,8 @@
 #include "nodes/CoreNode.h"
 #include "nodes/LayerOneNode.h"
 #include "nodes/LayerTwoNode.h"
-#include "FileWatcher.h"
-#include "TransactionReader.h"
+#include "transactions/FileWatcher.h"
+#include "transactions/TransactionReader.h"
 
 class Controller {
 public:

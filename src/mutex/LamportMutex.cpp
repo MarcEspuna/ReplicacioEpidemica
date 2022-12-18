@@ -1,4 +1,4 @@
-#include "LamportMutex.h"
+#include "mutex/LamportMutex.h"
 
 template<typename... Params>
 static void QueueErase(std::priority_queue<Params...>& queue, std::pair<int,int> element);
