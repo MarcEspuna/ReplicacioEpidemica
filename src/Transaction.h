@@ -7,7 +7,7 @@
  * 
  */
 enum class TransactionType {
-    SUM, SUBSTRACT, MULTIPLY, READ, UNKOWN
+    SUM = '+', SUBSTRACT = '-', MULTIPLY = '*', READ = 'r', UNKOWN = '5'
 };
 
 struct Version {

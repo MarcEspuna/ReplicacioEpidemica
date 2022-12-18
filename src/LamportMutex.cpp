@@ -41,6 +41,7 @@ void LamportMutex::HandleMsg(int message, int src, Tag tag)
     m_Clock.RecieveAction(src,message);
     switch (tag)
     {
+    /* Lamport mutex */
     case Tag::REQUEST:
         m_RequestQ[src] = message;        
         m_SckManager->SendMsg(src, Tag::ACK, m_Clock.GetValue(m_Id));
@@ -48,9 +49,19 @@ void LamportMutex::HandleMsg(int message, int src, Tag tag)
     case Tag::RELEASE:
         m_RequestQ.erase(src);
         break;
-    case Tag::BEGIN:
-        m_Begin = true;
-        cv_Connect.notify_all();
+
+    /* Transactions */
+    case Tag::READY:        // Node finished transaction        
+        
+
+        break;
+    /* Execute transaction request */
+    case Tag::READ:
+    case Tag::SUM:
+    case Tag::SUBSTRACT:
+    case Tag::MULTIPLY:
+        m_SckManager->ExecuteTransaction({(TransactionType)tag, message});  // Execute the transaction
+        m_SckManager->SendMsg(src, Tag::READY, message);                    // Transaction is done
         break;
     default:
         break;

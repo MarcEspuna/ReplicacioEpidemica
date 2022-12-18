@@ -1,7 +1,7 @@
 #pragma once
 #include "Commons.h"
-#include "Socket.h"
-#include "Client.h"
+#include "sockets/Socket.h"
+#include "sockets/Client.h"
 
 class Server : public Socket
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "Commons.h"
-#include "Node.h"
+#include "nodes/Node.h"
 
 
 class LayerTwoNode : public Node {

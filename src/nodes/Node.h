@@ -1,12 +1,13 @@
 #pragma once
 #include "Commons.h"
-#include "Client.h"
-#include "Server.h"
+#include "sockets/Client.h"
+#include "sockets/Server.h"
 #include "Transaction.h"
 #include "TransactionReader.h"
 
 enum class Tag {
-    REQUEST = 'R', RELEASE = 'L', OK = 'K', ACK = 'A', END='E', BEGIN='B', TERMINATE='T', READY='D'
+    REQUEST = 'R', RELEASE = 'L', OK = 'K', ACK = 'A', END='E', BEGIN='B', TERMINATE='T', READY='D',
+    SUM = '+', SUBSTRACT = '-', MULTIPLY = '*', READ = 'r', UNKOWN = '5'
 };
 
 class Node : public Server {
@@ -32,7 +33,7 @@ public:
     int IncommingReadFrom(int id);
 
     /* Transactions */
-    void ExecuteTransaction(TransactionData transaction);
+    virtual void ExecuteTransaction(TransactionData transaction);
 protected:
     virtual void Run() = 0;                                         // Main run loop from the node
 	virtual void IncommingConnection(SOCKET client) override;		// Incomming connection callback
@@ -54,5 +55,8 @@ template<typename T, int S>
 int Node::ReceiveMsg(int src, std::array<T,S>& data) 
 { 
     assertm(m_Sockets.find(src) != m_Sockets.end(), "Socket not found!"); 
-    return m_Sockets.at(src).Receive(data);    
+    if (m_Sockets.find(src) != m_Sockets.end())
+        return m_Sockets.at(src).Receive(data);    
+    data = {};
+    return -1;
 }

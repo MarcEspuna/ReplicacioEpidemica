@@ -1,7 +1,7 @@
 #pragma once
 #include "Commons.h"
 #include "MsgHandler.h"
-#include "Node.h"
+#include "nodes/Node.h"
 
 /// @brief Lock interface
 class Lock : public MsgHandler {

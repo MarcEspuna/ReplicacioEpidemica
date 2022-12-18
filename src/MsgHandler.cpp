@@ -37,7 +37,7 @@ MsgHandler::~MsgHandler()
 void MsgHandler::ClientService(int id, ServiceFunction handleMsg)
 {
     bool connected = true;
-    LOG_TRACE("ClientService started id: {}\n", id);
+    LOG_TRACE("ClientService started id: {}", id);
     while (connected)
     {
         switch (m_SckManager->IncommingReadFrom(id))
@@ -96,7 +96,7 @@ void MsgHandler::StartClientService(int port)
             BIND_CALLBACK(MsgHandler::HandleMsg))); // Execute handle msg reception
 }
 
-void MsgHandler::eraseClient(int id)
+void MsgHandler::EraseClient(int id)
 {
     std::lock_guard<std::mutex> lock(mtx_DataLock);
     eraseFromVector(id, m_CurrentComms);

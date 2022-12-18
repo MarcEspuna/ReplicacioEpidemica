@@ -21,7 +21,7 @@ public:
     TransactionReader();
     ~TransactionReader();
 
-    Transactions ReadTranactions(const std::string& filename);
+    Transactions ReadTransactions(const std::string& filename);
 
 private:
     std::fstream m_File;

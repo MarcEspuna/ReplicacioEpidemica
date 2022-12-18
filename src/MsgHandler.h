@@ -1,9 +1,9 @@
 #pragma once
 #include "Commons.h"
-#include "Server.h"
-#include "Client.h"
-#include "Socket.h"
-#include "Node.h"
+#include "sockets/Server.h"
+#include "sockets/Client.h"
+#include "sockets/Socket.h"
+#include "nodes/Node.h"
 
 #define BIND_CALLBACK(fn) std::bind(&fn, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)
 
@@ -31,9 +31,6 @@ protected:
     int m_ChildFinishes;                          // Number of child processes that have finished
     bool m_Begin;
 
-    std::mutex mtx_Connect;
-    std::condition_variable cv_Connect;
-
     Node* m_SckManager;
 private:
     /* Incomming connections thread */
@@ -47,6 +44,6 @@ private:
     std::mutex mtx_CallbackWait;
 
     void ClientService(int id, ServiceFunction callback);
-    void eraseClient(int id);
+    void EraseClient(int id);
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "nodes/Node.h"
 
 class LayerOneNode : public Node {
 public:
