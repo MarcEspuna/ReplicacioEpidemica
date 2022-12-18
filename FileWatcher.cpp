@@ -1,6 +1,6 @@
 #include "FileWatcher.h"
 
-FileWatcher::FileWatcher(std::function<void(const std::string &)> lamda)
+FileWatcher::FileWatcher(std::function<void(const std::string&, const std::string&)> lamda)
     : m_Handler(lamda)
 {
 }
@@ -11,8 +11,7 @@ void FileWatcher::handleFileAction(efsw::WatchID watchid, const std::string &dir
 {
     switch ( action ) {
         case efsw::Actions::Modified:
-            LOG_TRACE("Modified! Directory {}, file {}", dir, filename);
-            m_Handler(filename);
+            m_Handler(filename, dir);
             break;
         default:
             break;

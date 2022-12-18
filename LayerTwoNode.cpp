@@ -7,8 +7,8 @@ LayerTwoNode::~LayerTwoNode()
 }
 
 
-LayerTwoNode::LayerTwoNode(int id)
-    : Node(id)
+LayerTwoNode::LayerTwoNode(const std::string& name, int id)
+    : Node(name, id)
 {}
 
 void LayerTwoNode::Run()

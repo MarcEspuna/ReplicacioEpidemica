@@ -6,8 +6,8 @@ LayerOneNode::~LayerOneNode()
 }
 
 
-LayerOneNode::LayerOneNode(int id)
-    : Node(id)
+LayerOneNode::LayerOneNode(const std::string& name, int id)
+    : Node(name, id)
 {
     
 }

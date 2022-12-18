@@ -6,9 +6,8 @@ CoreNode::~CoreNode()
     
 }
 
-
-CoreNode::CoreNode(int id)
-    : Node(id), mtx_Lamport(id, this)
+CoreNode::CoreNode(const std::string& name, int id)
+    : Node(name, id), mtx_Lamport(id, this)
 {
     
 }

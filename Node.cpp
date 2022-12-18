@@ -1,7 +1,7 @@
 #include "Node.h"
 
-Node::Node(int id)
-    : Server(id), m_Id(id), m_Running(true)
+Node::Node(const std::string& name, int id)
+    : Server(id), m_Id(id), m_Running(true), m_Transaction({name, 0})
 {
     StartConnectionHandling();
 }
@@ -77,6 +77,27 @@ int Node::IncommingReadFrom(int id)
 { 
     LOG_ASSERT(m_Sockets.find(id) != m_Sockets.end(), "Socket not found!"); 
     return m_Sockets.at(id).IncommingRead(); 
+}
+
+void Node::ExecuteTransaction(TransactionData transaction)
+{
+    switch (transaction.type)
+    {
+    case TransactionType::SUM:
+        m_Transaction.Add(transaction.value);
+        break;
+    case TransactionType::SUBSTRACT:
+        m_Transaction.Substract(transaction.value);
+        break;
+    case TransactionType::MULTIPLY:
+        m_Transaction.Multiply(transaction.value);
+        break;
+    case TransactionType::READ:
+        m_Transaction.Show();
+        break;
+    default:
+        break;
+    }
 }
 
 void Node::RemoveClient(int id)

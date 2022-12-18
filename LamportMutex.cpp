@@ -4,7 +4,6 @@ template<typename... Params>
 static void QueueErase(std::priority_queue<Params...>& queue, std::pair<int,int> element);
 static bool isGreater(int entry1, int id1, int entry2, int id2);
 
-
 LamportMutex::LamportMutex(int id, Node* sckManager)
    : Lock(id, sckManager), m_Clock(id)
 {}   
@@ -14,7 +13,6 @@ LamportMutex::~LamportMutex()
     /* Notify all other porcesses that we have finished */
     LOG_WARN("Deleting lamport mutex.");
 }
-
 
 void LamportMutex::requestCS()
 {
@@ -34,7 +32,6 @@ void LamportMutex::releaseCS()
     m_RequestQ.erase(m_Id);
     BroadcastMsg(Tag::RELEASE, m_Clock.GetValue(m_Id));
 }
-
 
 
 void LamportMutex::HandleMsg(int message, int src, Tag tag)

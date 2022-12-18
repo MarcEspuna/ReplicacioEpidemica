@@ -5,7 +5,7 @@
 
 class CoreNode : public Node {
 public:
-    CoreNode(int id);
+    CoreNode(const std::string& name, int id);
     ~CoreNode();
 protected:
     virtual void Run() override;

@@ -5,7 +5,7 @@
 
 class LayerTwoNode : public Node {
 public:
-    LayerTwoNode(int id);
+    LayerTwoNode(const std::string& name, int id);
     ~LayerTwoNode();
     
 private:

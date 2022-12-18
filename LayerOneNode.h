@@ -4,7 +4,7 @@
 
 class LayerOneNode : public Node {
 public:
-    LayerOneNode(int id);
+    LayerOneNode(const std::string& name, int id);
     ~LayerOneNode();
 
 private:

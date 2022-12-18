@@ -16,5 +16,6 @@
 #include <cassert>
 #include <future>
 #include <queue>
+#include <sstream>
 
 #define assertm(exp, msg) assert(((void)msg, exp))
