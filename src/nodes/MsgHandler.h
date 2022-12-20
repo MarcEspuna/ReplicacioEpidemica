@@ -24,6 +24,7 @@ enum class Tag {
     SUM = '+', 
     SUBSTRACT = '-', 
     MULTIPLY = '*', 
+    SET='s',
     READ = 'r', 
     UNKOWN = '5'
 };
@@ -38,7 +39,7 @@ public:
     MsgHandler(int id);
     virtual ~MsgHandler();
 
-    // Sockets management
+    // Sockets communications
     void SendMsg(int desc, Tag tag, int msg);
     template<typename T, int S>
     int ReceiveMsg(int src, std::array<T,S>& data);
@@ -46,6 +47,7 @@ public:
     int IncommingReadFrom(int id);
     void BroadcastMsg(Tag tag, int msg, int layer);
 
+    // Connection management
     void Connect(const std::vector<int>& coreLayer = {}, 
                  const std::vector<int>& layerOne = {}, 
                  const std::vector<int>& layerTwo = {});
@@ -57,7 +59,7 @@ public:
     virtual void IncommingConnection(SOCKET client) override;
 
     // Abstract function
-    virtual void HandleMsg(int message, int src, Tag tag) = 0;          // Used for current level processes
+    virtual void HandleMsg(int message, int src, Tag tag) = 0;          // Function that gets called every time a message is received
 protected:
     // Member variables
     int m_Id;                                                           // Owr id                      

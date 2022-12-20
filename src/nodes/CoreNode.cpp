@@ -16,6 +16,7 @@ CoreNode::CoreNode(const std::string& name, int id)
 void CoreNode::Run()
 {
     LOG_INFO("Node {} started", m_Id);
+    // Test code for lamport mutex
     /*
     for (int i = 0; i < 4; i++)
     {
@@ -35,23 +36,36 @@ void CoreNode::Run()
  */
 void CoreNode::ExecuteTransaction(TransactionData transaction)
 {
+    if (transaction.type == TransactionType::READ){
+        Node::ExecuteTransaction(transaction);
+        return;
+    }
+
+    // Request critical section
     mtx_Lamport.requestCS();
     
     // Broadcast the update transaction to current layer
-    if (transaction.type != TransactionType::READ)
-    {
-        for (int dest : m_Layers[CORE_LAYER])
-            SendMsg(dest, (Tag)transaction.type, transaction.value);
-    }
+    for (int dest : m_Layers[CORE_LAYER])
+        SendMsg(dest, (Tag)transaction.type, transaction.value);
 
     // Execute transaction
     Node::ExecuteTransaction(transaction);
+    
+    // Broadcast transaction result to the next layer(layer one) if write count is avobe 10
+    m_WriteCount++;
+    if (m_WriteCount >= 10)
+    {
+        for (int dest : m_Layers[LAYER_ONE])
+            SendMsg(dest, (Tag)Tag::SET, m_Transaction.GetVersion());
+        m_WriteCount = 0;
+    }
     
     // Wait for transactions from other nodes to finish
     std::unique_lock<std::mutex> lock(mtx_Transaction);
     cv_Transaction.wait(lock, [this] { return m_FinishedNodes == m_Layers[CORE_LAYER].size(); });
     m_FinishedNodes = 0;
 
+    // Realease critical section
     mtx_Lamport.releaseCS();
 }
 
@@ -74,11 +88,14 @@ void CoreNode::HandleMsg(int message, int src, Tag tag)
         break;
     /* Execute transaction requests */
     case Tag::READ:
+        Node::ExecuteTransaction({(TransactionType)tag, message});      // Proceed to execute the transaction
+        break;
     case Tag::SUM:
     case Tag::SUBSTRACT:
     case Tag::MULTIPLY:
-        Node::ExecuteTransaction({(TransactionType)tag, message});  // Proceed to execute the transaction
-        SendMsg(src, Tag::READY, message);                          // Transaction is done, notify source node
+        Node::ExecuteTransaction({(TransactionType)tag, message});      // Proceed to execute the transaction
+        BroadcastMsg(Tag::SET, m_Transaction.GetVersion(), LAYER_ONE);  // Send update to the next layer(layer one)
+        SendMsg(src, Tag::READY, message);                              // Transaction is done, notify source node
         break;
     default:
         mtx_Lamport.HandleMsg(message, src, tag);

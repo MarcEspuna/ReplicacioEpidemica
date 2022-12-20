@@ -14,7 +14,9 @@ protected:
     virtual void Run() override;
 
 private:
-    LamportMutex mtx_Lamport;
+    LamportMutex mtx_Lamport;                           // Lamport mutex for the core layer transactions
+
+    int m_WriteCount;                                   // Number of writes that have been executed
 
     int m_FinishedNodes;                                // Number of nodes that have finished their transaction
     std::mutex mtx_Transaction;                         // Mutex for the transaction cv

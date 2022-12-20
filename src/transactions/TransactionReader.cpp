@@ -4,15 +4,6 @@ static int parseLayer(const std::string& strTrans);
 static TransactionData parseTransaction(const std::string& strTrans);
 static bool isReadOnly(const std::string& strTrans);
 
-TransactionReader::TransactionReader()
-{
-
-}
-
-TransactionReader::~TransactionReader()
-{
-}
-
 // b<f>, r(30), r(39), r(77) 
 Transactions TransactionReader::ReadTransactions(const std::string &filename)
 {

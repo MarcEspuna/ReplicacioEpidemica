@@ -18,8 +18,8 @@ struct Transactions {
 class TransactionReader
 {
 public:
-    TransactionReader();
-    ~TransactionReader();
+    TransactionReader() = default;
+    ~TransactionReader() = default;
 
     Transactions ReadTransactions(const std::string& filename);
 

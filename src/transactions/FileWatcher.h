@@ -3,11 +3,14 @@
 #include "Commons.h"
 #include <efsw.hpp>
 
+using FileHandlerFunction = std::function<void(const std::string&, const std::string&)>;
+
+#define BIND_FILE_HANDLER(handler) std::bind(&handler, this, std::placeholders::_1, std::placeholders::_2)
 
 class FileWatcher : public efsw::FileWatchListener {
 public:
     FileWatcher() = delete;
-    FileWatcher(std::function<void(const std::string&, const std::string&)> lamda);
+    FileWatcher(FileHandlerFunction lamda);
 
     virtual void handleFileAction(efsw::WatchID watchid, const std::string& dir,
                            const std::string& filename, efsw::Action action,
@@ -17,6 +20,5 @@ private:
     std::chrono::system_clock::time_point m_Start;
     std::chrono::system_clock::time_point m_End;
 
-    std::function<void(const std::string&, const std::string&)> m_Handler;
-
+    FileHandlerFunction m_Handler;
 };

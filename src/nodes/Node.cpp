@@ -45,6 +45,9 @@ void Node::ExecuteTransaction(TransactionData transaction)
     case TransactionType::MULTIPLY:
         m_Transaction.Multiply(transaction.value);
         break;
+    case TransactionType::SET:
+        m_Transaction.SetVersion(transaction.value);
+        break;
     case TransactionType::READ:
         m_Transaction.Show();
         break;

@@ -3,9 +3,11 @@
 
 
 Controller::Controller()
-    : A1("A1", 8888), A2("A2", 8889), A3("A3", 8890), 
-    m_FileListener(std::bind(&Controller::FileModifiedCallback, this, std::placeholders::_1, std::placeholders::_2)),
-    m_WatchId(m_FileWatcher.addWatch(TRANSACTION_DIRECTORY, &m_FileListener, false))
+    :   A1("A1", 8888), A2("A2", 8889), A3("A3", 8890), 
+        B1("B1", 8891), B2("B2", 8892),
+        C1("C1", 8893), C2("C2", 8894),
+        m_FileListener(BIND_FILE_HANDLER(Controller::FileModifiedCallback)),
+        m_WatchId(m_FileWatcher.addWatch(TRANSACTION_DIRECTORY, &m_FileListener, false))
 {}
 
 Controller::~Controller()
@@ -33,13 +35,21 @@ void Controller::Run()
 
     /* Node connections */
     A1.Connect({8889, 8890});
-    A2.Connect({8890});
-    A3.Connect();
+    A2.Connect({8890}, {8892}, {8891});
+    A3.Connect({},{}, {8892});
+
+    B2.Connect({}, {},{8893, 8894});
 
     /* Begin execution of nodes */
     A1.Start();
     A2.Start();
     A3.Start();
+
+    B1.Start();
+    B2.Start();
+
+    C1.Start();
+    C2.Start();
 
     std::cin.get();
 }
@@ -68,6 +78,7 @@ void Controller::FileModifiedCallback(const std::string &filename, const std::st
         }
     }else 
     {
+        // TODO: Read the entire layer
         LOG_WARN("Transaction read only to be implemented.");
     }
 
