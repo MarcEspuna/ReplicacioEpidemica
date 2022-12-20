@@ -26,6 +26,11 @@ void Node::Wait()
     m_MainThread.wait();
 }
 
+/**
+ * @brief Executes a transaction on the node
+ * 
+ * @param transaction Transaction parameters to execute
+ */
 void Node::ExecuteTransaction(TransactionData transaction)
 {
     LOG_INFO("Executing transaction {}", (char)transaction.type);

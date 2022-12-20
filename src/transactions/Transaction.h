@@ -28,7 +28,7 @@ public:
     
 private:
     Version m_Version;
-
+    static std::mutex m_ShowMutex;      // Used to avoid multiple threads printing at the same time
 };
 
 
