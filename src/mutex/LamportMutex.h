@@ -1,6 +1,6 @@
 #pragma once
 #include "Commons.h"
-#include "mutex/MsgHandler.h"
+#include "nodes/MsgHandler.h"
 #include "mutex/Lock.h"
 #include "Log.h"
 #include "mutex/DirectClock.h"
@@ -8,20 +8,22 @@
 
 class LamportMutex : public Lock {
 public:
-    LamportMutex(int id, Node* sckManager);
+    LamportMutex() = delete;
+    LamportMutex(int id, MsgHandler* msgHandler);
     virtual ~LamportMutex();
 
     void requestCS() override;
     void releaseCS() override;
 
-    void HandleMsg(int message, int src, Tag tag) override;          /* Used for current level processes */
-    void HandleChildMsg(int message, int src, Tag tag) override;     /* Used for child porcesses */
+    void HandleMsg(int message, int src, Tag tag);          /* Used for current level processes */
 private:
     bool okeyCS();
     
 private:
+    int m_Id;
     DirectClock m_Clock;
     std::unordered_map<int, int> m_RequestQ;
 
+    MsgHandler* m_MsgHandler;
     std::mutex mtx_RequestQ;
 };

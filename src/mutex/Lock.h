@@ -1,12 +1,10 @@
 #pragma once
 #include "Commons.h"
-#include "mutex/MsgHandler.h"
-#include "nodes/Node.h"
 
 /// @brief Lock interface
-class Lock : public MsgHandler {
+class Lock {
 public:
-    Lock(int id, Node* sckManager) : MsgHandler(id, sckManager) {};
+    Lock() = default;
     virtual ~Lock() = default;
 
     virtual void requestCS() = 0;    

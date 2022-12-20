@@ -9,7 +9,7 @@ public:
     ~CoreNode();
 
     virtual void ExecuteTransaction(TransactionData transaction) override;
-
+    virtual void HandleMsg(int message, int src, Tag tag) override;
 protected:
     virtual void Run() override;
 
