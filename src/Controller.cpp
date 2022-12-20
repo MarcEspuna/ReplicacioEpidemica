@@ -20,11 +20,19 @@ Controller::~Controller()
     A1.Shutdown();
     A2.Shutdown();
     A3.Shutdown();
+    B1.Shutdown();
+    B2.Shutdown();
+    C1.Shutdown();
+    C2.Shutdown();
     LOG_INFO("Waiting for nodes to finish");
 
     A1.Wait();
     A2.Wait();
     A3.Wait();
+    B1.Wait();
+    B2.Wait();
+    C1.Wait();
+    C2.Wait();
     LOG_INFO("All nodes finished.\n");
 }
 

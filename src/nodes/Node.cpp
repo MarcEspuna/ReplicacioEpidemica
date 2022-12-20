@@ -8,6 +8,7 @@ Node::Node(const std::string& name, int id)
 
 Node::~Node()
 {
+    
     LOG_WARN("Deleting node {}", m_Id);
 }
 
