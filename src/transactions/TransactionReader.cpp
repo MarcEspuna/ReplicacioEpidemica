@@ -38,11 +38,26 @@ int parseLayer(const std::string& line)
     {
         int layer;
         std::stringstream ss;
-        std::string substr = line.substr(line.find("b"), line.back());
+        std::string substr = line.substr(line.find("b")+1, line.find(","));
         ss << substr;
         if (ss >> layer && layer > 0 && layer < 3) return layer; 
     }
     return 0;
+}
+
+bool isReadOnly(const std::string &strTrans)
+{
+    if (!strTrans.empty())
+    {
+        int layer;
+        std::stringstream ss;
+        std::string substr = strTrans.substr(strTrans.find("b")+1, strTrans.find(","));
+            ss << substr;
+        if (ss >> layer 
+            && layer > 0 
+            && layer < 3) return true; 
+    }
+    return false;
 }
 
 TransactionData parseTransaction(const std::string &strTrans)
@@ -82,15 +97,3 @@ TransactionData parseTransaction(const std::string &strTrans)
     return data;
 }
 
-bool isReadOnly(const std::string &strTrans)
-{
-    if (!strTrans.empty())
-    {
-        int layer;
-        std::stringstream ss;
-        std::string substr = strTrans.substr(strTrans.find("b"), strTrans.back());
-        ss << substr;
-        if (ss >> layer && layer > 0 && layer < 3) return true; 
-    }
-    return false;
-}

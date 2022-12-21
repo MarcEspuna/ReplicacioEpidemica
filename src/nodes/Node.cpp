@@ -22,7 +22,7 @@ void Node::Shutdown()
     m_Running = false;
 }
 
-void Node::Wait()
+void Node::Wait() const
 {
     m_MainThread.wait();
 }

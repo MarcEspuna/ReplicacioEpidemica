@@ -1,5 +1,6 @@
 #pragma once
 #include "Commons.h"
+#include "Log.h"
 
 /**
  * @brief 
@@ -28,7 +29,10 @@ public:
     void Show();
 
     // Setters
-    void SetVersion(int value) { m_Version.version = value; }
+    void SetVersion(int value) { 
+        LOG_WARN("Setting version to {}", value);
+        m_Version.version = value; 
+    }
 
     // Getters
     int GetVersion() { return m_Version.version; }

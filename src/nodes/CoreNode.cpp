@@ -8,7 +8,7 @@ CoreNode::~CoreNode()
 }
 
 CoreNode::CoreNode(const std::string& name, int id)
-    : Node(name, id), mtx_Lamport(id, this), m_FinishedNodes(0) 
+    : Node(name, id), mtx_Lamport(id, this), m_FinishedNodes(0) , m_WriteCount(0)
 {
     
 }
@@ -55,8 +55,8 @@ void CoreNode::ExecuteTransaction(TransactionData transaction)
     m_WriteCount++;
     if (m_WriteCount >= 10)
     {
-        for (int dest : m_Layers[LAYER_ONE])
-            SendMsg(dest, (Tag)Tag::SET, m_Transaction.GetVersion());
+        LOG_TRACE("Broadcasting transaction result to layer one. Version {}", m_Transaction.GetVersion());
+        BroadcastMsg(Tag::SET, m_Transaction.GetVersion(), LAYER_ONE);  // Send update to the next layer(layer one)
         m_WriteCount = 0;
     }
     
@@ -94,7 +94,12 @@ void CoreNode::HandleMsg(int message, int src, Tag tag)
     case Tag::SUBSTRACT:
     case Tag::MULTIPLY:
         Node::ExecuteTransaction({(TransactionType)tag, message});      // Proceed to execute the transaction
-        BroadcastMsg(Tag::SET, m_Transaction.GetVersion(), LAYER_ONE);  // Send update to the next layer(layer one)
+        m_WriteCount++;
+        if (m_WriteCount >= 10)
+        {
+            BroadcastMsg(Tag::SET, m_Transaction.GetVersion(), LAYER_ONE);  // Send update to the next layer(layer one)
+            m_WriteCount = 0;
+        }
         SendMsg(src, Tag::READY, message);                              // Transaction is done, notify source node
         break;
     default:

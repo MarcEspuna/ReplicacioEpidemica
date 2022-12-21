@@ -19,7 +19,7 @@ public:
     /* Node management */
     void Start();  
     void Shutdown();
-    void Wait();
+    void Wait() const;
 
     /* Transactions */
     virtual void ExecuteTransaction(TransactionData transaction);

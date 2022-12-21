@@ -12,7 +12,7 @@ void FileWatcher::handleFileAction(efsw::WatchID watchid, const std::string &dir
     m_End = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(m_End-m_Start);
     // Debounce to prevent multiple consecutive callbacks
-    if (duration.count() > 500)
+    if (duration.count() > 500)     // 500 microseconds of debounce
     {
         switch ( action ) {
             case efsw::Actions::Modified:

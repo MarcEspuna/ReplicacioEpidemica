@@ -14,7 +14,7 @@ public:
     static std::shared_ptr<spdlog::logger> GetLogger();
     static void EndLogging();
 private:
-    static std::shared_ptr<spdlog::logger> m_Logger;
+    static std::shared_ptr<spdlog::logger> m_Logger;        // Core logger
     Log() = default;
 };
 
