@@ -1,6 +1,7 @@
 #include "nodes/CoreNode.h"
 #include "CoreNode.h"
 
+#define UPDATE_COUNT 10
 
 CoreNode::~CoreNode()
 {
@@ -51,9 +52,9 @@ void CoreNode::ExecuteTransaction(TransactionData transaction)
     // Execute transaction
     Node::ExecuteTransaction(transaction);
     
-    // Broadcast transaction result to the next layer(layer one) if write count is avobe 10
+    // Broadcast transaction result to the next layer(layer one) if write count is above 10
     m_WriteCount++;
-    if (m_WriteCount >= 10)
+    if (m_WriteCount >= UPDATE_COUNT)
     {
         LOG_TRACE("Broadcasting transaction result to layer one. Version {}", m_Transaction.GetVersion());
         BroadcastMsg(Tag::SET, m_Transaction.GetVersion(), LAYER_ONE);  // Send update to the next layer(layer one)

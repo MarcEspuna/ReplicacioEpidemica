@@ -64,13 +64,14 @@ void Controller::Run()
 
 void Controller::FileModifiedCallback(const std::string &filename, const std::string &dir)
 {
-    Node* node = nullptr;
     std::string path(dir + filename);
     LOG_INFO("File modified. Filepath {}", path);
     TransactionReader reader;
     Transactions transactions = reader.ReadTransactions(path);
-    if (!transactions.readOnly)
+    // Not read only transactions
+    if (!transactions.readOnly)         // Not read only transactions are executed on core layer nodes
     {
+        Node* node = nullptr;
         if (filename.find("A1") != std::string::npos)                   // Transaction to A1
         {
             LOG_INFO("Transaction to A1");
@@ -89,7 +90,9 @@ void Controller::FileModifiedCallback(const std::string &filename, const std::st
             for (const auto& trans : transactions.transactions)
                 node->ExecuteTransaction(trans);
         }
-    }else 
+    }
+    // Read only transactions
+    else 
     {   // Execute the read only transactions on all the nodes of the layer
         switch (transactions.layer)
         {

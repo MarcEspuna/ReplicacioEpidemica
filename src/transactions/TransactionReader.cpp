@@ -4,7 +4,6 @@ static int parseLayer(const std::string& strTrans);
 static TransactionData parseTransaction(const std::string& strTrans);
 static bool isReadOnly(const std::string& strTrans);
 
-// b<f>, r(30), r(39), r(77) 
 Transactions TransactionReader::ReadTransactions(const std::string &filename)
 {
     Transactions transactions;
@@ -52,9 +51,10 @@ bool isReadOnly(const std::string &strTrans)
         int layer;
         std::stringstream ss;
         std::string substr = strTrans.substr(strTrans.find("b")+1, strTrans.find(","));
-            ss << substr;
-        if (ss >> layer 
-            && layer > 0 
+        ss << substr;
+        ss >> layer;
+        if (!ss.fail()
+            && layer >= 0 
             && layer < 3) return true; 
     }
     return false;

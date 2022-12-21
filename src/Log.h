@@ -25,7 +25,7 @@ private:
     #define LOG_WARN(...)               SPDLOG_LOGGER_WARN(Log::GetLogger(), __VA_ARGS__)
     #define LOG_ERROR(...)              SPDLOG_LOGGER_ERROR(Log::GetLogger(), __VA_ARGS__)
     #define LOG_CRITICAL(...)           SPDLOG_LOGGER_CRITICAL(Log::GetLogger(), __VA_ARGS__)
-    #define LOG_ASSERT(check, ...)      { if (!(check)) { SPDLOG_LOGGER_ERROR(Log::GetLogger(), __VA_ARGS__); assert(false); }}
+    #define LOG_ASSERT(check, ...)      { if (!(check)) { SPDLOG_LOGGER_CRITICAL(Log::GetLogger(), __VA_ARGS__); __debugbreak(); }}
 #else
     #define LOG_TRACE(...)      
     #define LOG_INFO(...)       

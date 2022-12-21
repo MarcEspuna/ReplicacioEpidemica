@@ -115,6 +115,7 @@ void MsgHandler::BroadcastMsg(Tag tag, int msg, int layer)
         return;
     }
     LOG_TRACE("Broadcast msg, layer: {}, layer size: {}, msg: {}", layer, m_Layers[layer].size(), msg);
+
     for (auto id : m_Layers[layer]) SendMsg(id, tag, msg);
 }
 
