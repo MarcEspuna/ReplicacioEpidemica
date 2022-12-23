@@ -36,7 +36,8 @@ public:
 
     // Getters
     int GetVersion() { return m_Version.version; }
-
+    std::string GetName() { return m_Version.name; }
+    
 private:
     Version m_Version;
     static std::mutex m_ShowMutex;      // Used to avoid multiple threads printing at the same time

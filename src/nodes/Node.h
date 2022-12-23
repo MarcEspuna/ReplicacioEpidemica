@@ -5,6 +5,7 @@
 #include "sockets/Server.h"
 #include "transactions/Transaction.h"
 #include "transactions/TransactionReader.h"
+#include "web_socket/WsClient.h"
 
 // Node abstract class is the base class for all nodes in the system
 class Node : public MsgHandler {
@@ -28,6 +29,7 @@ protected:
 protected:
     bool m_Running;                                                 // Boolean that keeps the run loop going
     Transaction m_Transaction;
+    WebSocketClient m_WsClient;
 private:
     std::future<void> m_MainThread;                                
     std::mutex m_DataMutex;

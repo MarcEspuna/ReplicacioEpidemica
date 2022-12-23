@@ -1,14 +1,15 @@
 #include "nodes/Node.h"
 
+#define WEBSOCKET_URL "ws://localhost:8126/foo"
+
 Node::Node(const std::string& name, int id)
-    : MsgHandler(id), m_Running(true), m_Transaction({name, 0})
+    : MsgHandler(id), m_Running(true), m_Transaction({name, 0}), m_WsClient(WEBSOCKET_URL)
 {
     StartConnectionHandling();
 }
 
 Node::~Node()
 {
-    
     LOG_WARN("Deleting node {}", m_Id);
 }
 
@@ -34,6 +35,7 @@ void Node::Wait() const
  */
 void Node::ExecuteTransaction(TransactionData transaction)
 {
+    std::stringstream ss;   // Used to parse dat
     LOG_INFO("Executing transaction {}", (char)transaction.type);
     switch (transaction.type)
     {
@@ -55,4 +57,8 @@ void Node::ExecuteTransaction(TransactionData transaction)
     default:
         break;
     }
+    
+    // Send current version to web socket server
+    ss << m_Transaction.GetVersion();
+    m_WsClient.Send(m_Transaction.GetName() + ": " + ss.str());
 }

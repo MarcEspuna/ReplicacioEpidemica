@@ -22,7 +22,7 @@ private:
     std::array<LayerOneNode, 2> m_LayerOneNodes;    // Layer 1
     std::array<LayerTwoNode, 2> m_LayerTwoNodes;    // Layer 2
 
-    // File system
+    // File watch system
     efsw::FileWatcher m_FileWatcher;
     FileWatcher m_FileListener;
     efsw::WatchID m_WatchId;
