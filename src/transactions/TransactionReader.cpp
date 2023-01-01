@@ -15,9 +15,8 @@ Transactions TransactionReader::ReadTransactions(const std::string &filename)
         transactions.layer = parseLayer(strTransaction);
         transactions.readOnly = isReadOnly(strTransaction);
         std::cout << strTransaction << std::endl;
-        while(!m_File.eof())
+        while(m_File >> strTransaction)
         {   
-            m_File >> strTransaction;
             std::cout << strTransaction << std::endl;
             TransactionData data = parseTransaction(strTransaction);
             if (data.type != TransactionType::UNKOWN){
