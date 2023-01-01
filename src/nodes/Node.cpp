@@ -35,7 +35,6 @@ void Node::Wait() const
  */
 void Node::ExecuteTransaction(TransactionData transaction)
 {
-    std::stringstream ss;   // Used to parse dat
     LOG_INFO("Executing transaction {}", (char)transaction.type);
     switch (transaction.type)
     {
@@ -58,7 +57,11 @@ void Node::ExecuteTransaction(TransactionData transaction)
         break;
     }
     
-    // Send current version to web socket server
-    ss << m_Transaction.GetVersion();
-    m_WsClient.Send(m_Transaction.GetName() + ": " + ss.str());
+    // If write transaction, send current version to web socket server
+    if (transaction.type != TransactionType::READ)
+    {
+        std::stringstream ss;   // Used to parse dat
+        ss << m_Transaction.GetVersion();
+        m_WsClient.Send(m_Transaction.GetName() + ": " + ss.str());
+    }
 }

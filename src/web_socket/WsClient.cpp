@@ -7,7 +7,7 @@ WebSocketClient::WebSocketClient(const std::string& url)
     using easywsclient::WebSocket;
 
     // Websocket thread that sends and receives messages from and to the server and stores them in the class queues
-    m_Runner = std::thread([=] {
+    m_Runner = std::thread([this, url] {
         std::unique_ptr<WebSocket> ws(WebSocket::from_url(url));
         
         if (!ws)    // Check if the connection was successful
@@ -29,6 +29,7 @@ WebSocketClient::WebSocketClient(const std::string& url)
             });
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+        LOG_WARN("Closing websocket connection to url: {}", url);
         ws->close();
         ws->poll();
     });

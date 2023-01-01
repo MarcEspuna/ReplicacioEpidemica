@@ -4,6 +4,8 @@ project(ReplicacioEpidemica VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
+set(BUILD_SHARED_LIBS OFF)              # Build as static libraries
+
 add_subdirectory(dependencies/spdlog)
 add_subdirectory(dependencies/efsw)
 
@@ -26,6 +28,8 @@ target_include_directories(ReplicacioEpidemica PRIVATE dependencies/spdlog/inclu
 target_precompile_headers(ReplicacioEpidemica PRIVATE src/Commons.h)
 target_link_libraries(ReplicacioEpidemica PUBLIC ${LIBS})
 target_compile_definitions(ReplicacioEpidemica PRIVATE _CRT_SECURE_NO_WARNINGS)
+
+install(TARGETS ReplicacioEpidemica spdlog efsw)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
