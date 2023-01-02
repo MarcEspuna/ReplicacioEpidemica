@@ -1,6 +1,7 @@
 # Replicacio Epidemica
 It's a distributed system arquitecture consisting of 7 nodes and 3 layers. It uses Epidemic replication between the layers to persist and backup the data. 
-## Platforma
+
+## Platform
 Currently only supports **Windows** OS. 
 
 ## Build 
@@ -10,8 +11,8 @@ The program build sistem has been tested using Visual Studio Code with CMake Too
 
 ## Dependencies
 It uses 2 git submodules: 
--   spdlog: For console logging and file logging. At runtime, a directory called logs will be generated where all the node logs will be stored as the program executes. 
--   efsw: File watching system. Used to tell the program when a file is beeing modified. The program applies a *Watch* on the ClientTransactions folder. In this folder you can submit read or write requests to any of the *Core Layer* nodes.
+-   <ins>*Spdlog*</ins>: For console logging and file logging. At runtime, a directory called logs will be generated where all the node logs will be stored as the program executes. 
+-   <ins>*Efsw*</ins>: File watching system. Used to tell the program when a file is beeing modified. The program applies a *Watch* on the ClientTransactions folder. In this folder you can submit read or write requests to any of the *Core Layer* nodes.
 
 ## Usage
 If the user wishes to real-time monitor all the nodes using a visual interface, make sure first run the node monitor program before running this project as only on initialization tries to connect to the web socket server. Having the websocket server is not a mandatory requirement. 
