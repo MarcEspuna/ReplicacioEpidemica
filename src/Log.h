@@ -4,7 +4,7 @@
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "spdlog.h"
-
+#include "spdlog/sinks/basic_file_sink.h"
 
 class Log {
 public:

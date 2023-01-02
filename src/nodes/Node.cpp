@@ -1,10 +1,22 @@
 #include "nodes/Node.h"
+#include "Log.h"
 
 #define WEBSOCKET_URL "ws://localhost:8126/foo"
 
 Node::Node(const std::string& name, int id)
-    : MsgHandler(id), m_Running(true), m_Transaction({name, 0}), m_WsClient(WEBSOCKET_URL)
+    :   MsgHandler(id), 
+        m_Running(true), 
+        m_Transaction({name, 0}), 
+        m_WsClient(WEBSOCKET_URL)
 {
+    try 
+    {
+        // Start the file logger
+        m_Logger = spdlog::basic_logger_mt(name, "../../logs/node_" + name + ".log");
+    } 
+    catch (const spdlog::spdlog_ex& ex) {
+        LOG_ERROR("Log initialization failed: {}", ex.what());
+    }
     StartConnectionHandling();
 }
 
@@ -64,4 +76,5 @@ void Node::ExecuteTransaction(TransactionData transaction)
         ss << m_Transaction.GetVersion();
         m_WsClient.Send(m_Transaction.GetName() + ": " + ss.str());
     }
+    m_Logger->info("Transaction {} executed, argument{}. Current version: {}", (char)transaction.type, transaction.value, m_Transaction.GetVersion());
 }

@@ -30,6 +30,8 @@ protected:
     bool m_Running;                                                 // Boolean that keeps the run loop going
     Transaction m_Transaction;
     WebSocketClient m_WsClient;
+
+    std::shared_ptr<spdlog::logger> m_Logger;                       // File logger for the node
 private:
     std::future<void> m_MainThread;                                
     std::mutex m_DataMutex;
