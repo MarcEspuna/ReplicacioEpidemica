@@ -1,26 +1,25 @@
 # Replicacio Epidemica
-It's a distributed system arquitecture consisting of 7 nodes and 3 layers. 
+It's a distributed system arquitecture consisting of 7 nodes and 3 layers. It uses Epidemic replication between the layers to persist and backup the data. 
+## Platforma
+Currently only supports **Windows** OS. 
+
 ## Build 
-Build using VSCode with cmake tools. There is a provided cmake that compiles the project.
-### Dependencies
+The program build sistem has been tested using Visual Studio Code with CMake Tools extension as well as CLion IDE. In each case the CMake of the main project was enough to correctly configure and build the program.
+
+<ins>It has only been tested using **MSVC** compiler.</ins>
+
+## Dependencies
 It uses 2 git submodules: 
--   spdlog: For logging
--   efsw: File watching system. Used to tell the program when a file is beeing modified.
+-   spdlog: For console logging and file logging. At runtime, a directory called logs will be generated where all the node logs will be stored as the program executes. 
+-   efsw: File watching system. Used to tell the program when a file is beeing modified. The program applies a *Watch* on the ClientTransactions folder. In this folder you can submit read or write requests to any of the *Core Layer* nodes.
 
-## Class descriptions
+## Usage
+If the user wishes to real-time monitor all the nodes using a visual interface, make sure first run the node monitor program before running this project as only on initialization tries to connect to the web socket server. Having the websocket server is not a mandatory requirement. 
 
--   Server: Handles everything realted with server socket. Looks for incomming connections and calls a virtual function 
-every time a socket connects to the server.
--   Msg handler: Msg handler is the one that will have all clients with the unordered map. It will have all the functions for sending messages etc. It has the following virtual functions:
-    -   IncommingConnection:
-    -   HandleMsg:
+Once the program is running you can submit read or write operations on any node of the core layer by writing the commands in the folders located in ClientTransactions.txt and saving the file (ctrl + s). At the moment of saving the file, the filewatch sistem will trigger an interrupt and will execute the command on the specified node. Write operations are only perimitted on Core Nodes. Read only operations are performed on the entire layer. 
 
-- The node that connects will inform the server about it's id and it's layer.
+Each node will generate a log of all the transactions performed and will be placed in the log folder. If that folder doesn't exist, it will be automatically created. 
 
-- Inheritance: Node inherits from msg handler. Msg handler inherits from server.
-
-
-TODOS:
--   LamportMutex. @Todo: It will take a msg handler pointer and send messages from him
--   Refactor Msg handler to inherit from node. 
--   Add layers handling on msg handler. Add sending current layer on connection.
+## Notes
+You can find the node monitor project on the following github repository: 
+-   [Node Monitor](https://github.com/Singu99/Sessio4-Server-App)
